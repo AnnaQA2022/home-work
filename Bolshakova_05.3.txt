@@ -1,0 +1,21 @@
+[info] Playing test case EDADEAL / edadeal-work-999
+[info] Time: Wed Feb 23 2022 01:17:37 GMT+0300 (Москва, стандартное время) Timestamp: 1645568257918
+[info] OS: Windows Version: 10
+[info] Browser: Chrome Version: 98.0
+[info] If the test cannot start, please refresh the active browser tab
+[info] Executing: | open | https://edadeal.ru/ | |
+[info] Executing: | click | link=Скидки | |
+[info] Executing: | click | xpath=//input | |
+[info] Executing: | type | xpath=//input | молоко |
+[info] Executing: | sendKeys | xpath=//input | ${KEY_ENTER} |
+[info] Expand variable '${KEY_ENTER}' into ''
+[info] Executing: | click | xpath=//img[@alt='Молоко ДОМИК В ДЕРЕВНЕ, пастеризованное, 3,7%, 930мл со скидкой'] | |
+[info] Executing: | click | xpath=//div[@id='view']/div/div[2]/div[2]/div[2]/div/div/a/div | |
+[info] Executing: | click | link=Скидки | |
+[info] Executing: | click | xpath=//input | |
+[info] Executing: | type | xpath=//input | малако |
+[info] Executing: | sendKeys | xpath=//input | ${KEY_ENTER} |
+[info] Expand variable '${KEY_ENTER}' into ''
+[info] Executing: | click | xpath=//div[@id='view']/div/div[3]/div/div/div/div[3]/div/div/div | |
+[info] Time: Wed Feb 23 2022 01:17:52 GMT+0300 (Москва, стандартное время) Timestamp: 1645568272234
+[info] Test case passed

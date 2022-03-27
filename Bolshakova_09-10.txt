@@ -1,0 +1,140 @@
+1) Создание таблицы Pets и ее запорлнение
+
+CREATE TABLE if NOT EXISTS Pets (
+  id INT PRIMARY KEY NOT NULL, 
+  name TEXT not NULL, 
+  species TEXT not NULL, 
+  breed TEXT, 
+  sex CHAR (1) not NULL, 
+  birthdate DATE not NULL, 
+  disease TEXT, 
+  sterilized BOOLEAN, 
+  owner_name TEXT not NULL, 
+  address TEXT not NULL
+);
+
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (1, 'Барсик', 'Кот', 'Шотландский вислоухий', 'm', '2021-03-20', 'ушки болят', TRUE, 'Игорь Смирнов', 'Казань, Ул. Мяучья д.8');
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (2, 'Борис', 'Кот', 'Шотландский вислоухий', 'm', '2018-05-9', 'мочекаменная болезнь', FALSE, 'Инга Коршунова', 'Казань, Ул. Мяучья д.8');
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (3, 'Злыдня', 'Собака', 'Чихуа Хуа', 'm', '2020-01-19', 'осмотр', TRUE, 'Вася Петров', 'Казань, Ул. Костекапательная д.17');
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (4, 'Мистер Коготь', 'Кот', 'Мейнкун', 'm', '2019-09-16', 'прививка', FALSE, 'Инакентий Смактуновский', 'Казань, Ул. Пребрежная д.84');
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (5, 'Стеша', 'Собака', 'Спрингер спаниэль', 'f', '2017-08-30', 'артрит', TRUE, 'Анна Большакова', 'Казань, Ул. Ласковая д.7');
+
+2) Создание таблицы Doctors и ее запорлнение
+
+CREATE TABLE if NOT EXISTS Doctors (
+  id INT PRIMARY KEY NOT NULL, 
+  lastname TEXT not NULL, 
+  firstname TEXT not NULL, 
+  specialization TEXT not NULL, 
+  address TEXT not NULL
+);
+
+INSERT INTO doctors (id, lastname, firstname, specialization, address)
+VALUES (1, 'Владимирова', 'Ольга', 'ветеренар', 'Казань, Ул. Врачебная д.99');
+INSERT INTO doctors (id, lastname, firstname, specialization, address)
+VALUES (2, 'Петрова', 'Оксана', 'ветеренар-хирург', 'Казань, Ул. Высокая д.17');
+INSERT INTO doctors (id, lastname, firstname, specialization, address)
+VALUES (3, 'Курносов', 'Василий', 'ветеренар', 'Казань, Ул. Мяучья д.45');
+INSERT INTO doctors (id, lastname, firstname, specialization, address)
+VALUES (4, 'Сибгатуллин', 'Эрик', 'ветеренар', 'Казань, Ул. Барсучья д.18');
+INSERT INTO doctors (id, lastname, firstname, specialization, address)
+VALUES (5, 'Акунин', 'Борис', 'ветеренар', 'Казань, Ул. Японская д.5');
+
+3) Создание таблицы inspection и ее запорлнение
+
+CREATE TABLE if NOT EXISTS inspection (
+  id INT PRIMARY KEY NOT NULL, 
+  pet_id int NOT NULL,
+  doctor_id INT NOT NULL,
+  date TIMESTAMP NOT NULL,
+  room INT NOT NULL, 
+  prescription TEXT,
+  price NUMERIC,
+  FOREIGN KEY (pet_id) REFERENCES pets(id),
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+  );
+
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (1, 1, 1, '2022-03-16', '12', 'капли в цуши 3 раза в день', '500');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (2, 2, 1, '2022-03-14', '12', 'установка катетера', '700');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (3, 2, 2, '2022-03-17', '13', 'расширение мочевыводящих путей', '1000');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (4, 3, 3, '2022-03-19', '12', NULL, '300');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (5, 4, 2, '2022-03-05', '13', 'прививка от бешества', '400');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (6, 4, 4, '2022-03-20', '3', 'прививка от клещей', '400');
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (7, 5, 2, '2022-03-03', '13', 'использовать обезбаливающую мазь', NULL);
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (8, 5, 5, '2022-03-07', '8', NULL, '1500');
+
+ЗАПРОСЫ:
+
+1)Вывести список карточек животных, отсортировав их по возрасту от младшего к старшему
+
+SELECT * FROM pets order by birthdate DESC
+
+2) Для выполнения задания нужна хотя бы одна карточка питомца с кличкой «Барсик». 
+Вывести всех питомцев с кличкой «Барсик» 
+
+SELECT * FROM pets where name = 'Барсик'
+
+3) Для выполнения задания нужен доктор Владимирова Ольга, которая проводила хотя бы один осмотр. 
+Вывести кол-во осмотров, проведенных Ольгой Владимировой.
+
+select COUNT (id) from inspection WHERE  doctor_id = '1'
+
+или сложный вариант с JOIN:
+
+select count (*) from inspection
+INNER JOIN doctors ON inspection.doctor_id = doctors.id
+WHERE doctors.lastname='Владимирова' AND doctors.firstname='Ольга'
+
+4) *Вывести список всех питомцев, проживающих под одной крышей
+
+SELECT name FROM pets where address in (
+SELECT address
+FROM pets
+GROUP BY address
+HAVING COUNT(id) > 1)
+
+5) Вывести список «врач-количество питомцев», где кол-во питомцев = кол-во уникальных питомцев на учете у врача.
+
+SELECT doctors.lastname, doctors.firstname, COUNT(DISTINCT inspection.pet_id)
+FROM inspection
+INNER JOIN doctors on doctors.id = inspection.doctor_id
+GROUP BY doctors.id
+ORDER BY doctors.id
+
+6) Вывести список кабинетов, в которых принимает врач Владимирова Ольга?
+
+SELECT DISTINCT room FROM inspection WHERE doctor_id = '1'
+
+или сложный вариант с JOIN:
+
+SELECT DISTINCT room FROM inspection 
+INNER JOIN doctors ON inspection.doctor_id = doctors.id
+WHERE doctors.lastname='Владимирова' AND doctors.firstname='Ольга'
+
+7) Для выполнения задания нужна карточка питомца «Собака Челси», запись об ее осмотре текущим числом 
+(будьте внимательны, ведь текущее число во время проверки должно оставаться текущим). 
+Вывести Адрес врача, который осматривал сегодня собаку по имени «Челси»
+
+INSERT INTO pets (id, name, species, breed, sex, birthdate, disease, sterilized, owner_name, address)
+VALUES (6, 'Челси', 'Собака', 'Бульдог', 'f', '2022-01-12', 'клещ', TRUE, 'Филюза Яппарова', 'Стамбул, Ул. Турецкая д.100');
+
+INSERT INTO inspection (id, pet_id, doctor_id, date, room, prescription, price)
+VALUES (9, 6, 3, CURRENT_DATE, '7', 'обработать от клещей', '250');
+
+SELECT doctors.address FROM doctors
+INNER JOIN inspection on inspection.doctor_id = doctors.id
+INNER JOIN pets on pets.id = inspection.pet_id
+WHERE pets.name = 'Челси' and inspection.date = CURRENT_DATE
